@@ -3,11 +3,15 @@ import React, { useRef } from 'react';
 import { 
   GraduationCap, Database, RotateCcw, Plus, Trash2, BookOpen, 
   FileSpreadsheet, Printer, TrendingUp, Award, AlertCircle, ClipboardList,
-  Download, Upload, Share2, Copy, Users
+  Download, Upload, Share2, Copy, Users, Globe, Terminal
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Area } from 'recharts';
 import { Student, Subject, Journal, TeacherProfile } from './Types';
 import * as XLSX from 'xlsx';
+
+// Manual icon fallback
+const GlobeIcon = Globe;
+const TerminalIcon = Terminal;
 
 interface ViewProps {
   students?: Student[];
@@ -39,15 +43,15 @@ export const HomeView: React.FC<ViewProps> = ({ teacherProfile, onBackup, onRest
 
   return (
     <div className="space-y-10 animate-fade-in pb-20">
+      {/* Welcome Banner */}
       <div className="bg-white p-16 rounded-5xl shadow-sm border border-slate-100 flex justify-between items-center relative overflow-hidden group">
         <div className="absolute inset-0 bg-gradient-to-r from-edu-primary/5 to-transparent"></div>
         <div className="relative z-10 space-y-6">
           <h1 className="text-5xl font-black text-edu-dark tracking-tighter leading-tight">Halo,<br/> <span className="text-edu-secondary">{teacherProfile?.fullName}!</span></h1>
-          <p className="text-slate-400 text-sm max-w-lg font-medium leading-relaxed">Kelola kurikulum, absensi, dan nilai murid dengan sistem cerdas sekolah Anda.</p>
+          <p className="text-slate-400 text-sm max-w-lg font-medium leading-relaxed">Portal Anda sekarang siap dibagikan melalui Netlify. Kelola kurikulum dan murid dengan lebih mudah.</p>
           <div className="flex gap-4">
-            <button onClick={() => setActiveTab?.('murid')} className="px-12 py-5 bg-edu-primary text-white rounded-3xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:bg-edu-dark transition-all">Kelola Murid</button>
-            <button onClick={onBackup} className="px-8 py-5 border-2 border-edu-primary text-edu-primary rounded-3xl font-black text-[10px] uppercase flex items-center gap-2 hover:bg-edu-primary hover:text-white transition-all"><Database size={16} /> Backup</button>
-            <button onClick={onRestore} className="px-8 py-5 border-2 border-edu-secondary text-edu-secondary rounded-3xl font-black text-[10px] uppercase flex items-center gap-2 hover:bg-edu-secondary hover:text-white transition-all"><RotateCcw size={16} /> Restore</button>
+            <button onClick={() => setActiveTab?.('murid')} className="px-12 py-5 bg-edu-primary text-white rounded-3xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl hover:bg-edu-dark transition-all">Mulai Kelola Murid</button>
+            <button onClick={onBackup} className="px-8 py-5 border-2 border-edu-primary text-edu-primary rounded-3xl font-black text-[10px] uppercase flex items-center gap-2 hover:bg-edu-primary hover:text-white transition-all"><Database size={16} /> Backup Data</button>
           </div>
         </div>
         <div className="absolute right-0 -bottom-16 opacity-10 -rotate-12 select-none group-hover:scale-110 duration-700 transition-transform">
@@ -55,48 +59,60 @@ export const HomeView: React.FC<ViewProps> = ({ teacherProfile, onBackup, onRest
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         {/* Kolaborasi Section */}
-        <div className="bg-edu-secondary/5 border-2 border-edu-secondary/10 p-12 rounded-[3.5rem] space-y-8">
+        <div className="lg:col-span-1 bg-edu-secondary/5 border-2 border-edu-secondary/10 p-10 rounded-[3.5rem] space-y-8">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 bg-edu-secondary text-white rounded-2xl flex items-center justify-center shadow-lg"><Users size={28} /></div>
             <div className="space-y-1">
-              <h3 className="text-2xl font-black text-edu-dark uppercase tracking-tight">Undang Rekan Guru</h3>
-              <p className="text-edu-secondary text-[10px] font-black uppercase tracking-widest">Bagikan Portal Ini</p>
+              <h3 className="text-xl font-black text-edu-dark uppercase tracking-tight">Berbagi Portal</h3>
+              <p className="text-edu-secondary text-[9px] font-black uppercase tracking-widest">Ajak Rekan Guru</p>
             </div>
           </div>
-          <p className="text-slate-500 text-sm font-medium leading-relaxed">Ajak rekan guru lain untuk menggunakan sistem manajemen ini. Mereka bisa mendaftar akun sendiri dan mengelola kelas mereka.</p>
-          <div className="flex gap-3">
-            <button onClick={handleCopyLink} className="flex-1 py-4 bg-white text-edu-secondary border-2 border-edu-secondary/20 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-edu-secondary hover:text-white transition-all flex items-center justify-center gap-2 shadow-sm">
-              <Copy size={16} /> Salin Link Portal
+          <p className="text-slate-500 text-xs font-medium leading-relaxed">Salin link Netlify Anda dan kirim ke WhatsApp rekan guru lain agar mereka bisa mendaftar.</p>
+          <div className="space-y-3">
+            <button onClick={handleCopyLink} className="w-full py-4 bg-white text-edu-secondary border-2 border-edu-secondary/20 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-edu-secondary hover:text-white transition-all flex items-center justify-center gap-2 shadow-sm">
+              <Copy size={16} /> Salin Link Netlify
             </button>
-            <button onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent('Halo Rekan Guru! Gunakan portal guru digital ini untuk manajemen sekolah yang lebih mudah: ' + portalUrl)}`, '_blank')} className="px-8 py-4 bg-green-500 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-green-600 transition-all shadow-lg flex items-center gap-2">
-              <Share2 size={16} /> WhatsApp
+            <button onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent('Halo Rekan Guru! Mari gunakan portal guru digital untuk manajemen kelas: ' + portalUrl)}`, '_blank')} className="w-full py-4 bg-green-500 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-green-600 transition-all shadow-lg flex items-center justify-center gap-2">
+              <Share2 size={16} /> Kirim via WhatsApp
             </button>
           </div>
         </div>
 
-        {/* Tutorial Singkat */}
-        <div className="bg-edu-primary/5 border-2 border-edu-primary/10 p-12 rounded-[3.5rem] space-y-8">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-edu-primary text-white rounded-2xl flex items-center justify-center shadow-lg"><BookOpen size={28} /></div>
+        {/* Netlify Guide Section */}
+        <div className="lg:col-span-2 bg-edu-dark p-12 rounded-[3.5rem] space-y-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-edu-primary opacity-20 blur-[100px]"></div>
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white/10 text-edu-yellow rounded-2xl flex items-center justify-center border border-white/20"><GlobeIcon size={28} /></div>
             <div className="space-y-1">
-              <h3 className="text-2xl font-black text-edu-dark uppercase tracking-tight">Cara Berbagi Data</h3>
-              <p className="text-edu-primary text-[10px] font-black uppercase tracking-widest">Kolaborasi Data</p>
+              <h3 className="text-xl font-black text-white uppercase tracking-tight">Konfigurasi Netlify</h3>
+              <p className="text-edu-yellow text-[9px] font-black uppercase tracking-widest">Agar Fitur AI Berjalan</p>
             </div>
           </div>
-          <div className="space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-edu-primary text-white text-[10px] font-black flex items-center justify-center shrink-0">1</div>
-              <p className="text-xs font-bold text-slate-600">Gunakan fitur <span className="text-edu-primary">Backup</span> untuk mengunduh data Anda.</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+            <div className="space-y-4">
+              <h4 className="text-white text-[11px] font-black uppercase tracking-widest border-b border-white/10 pb-2">Langkah di Dashboard Netlify:</h4>
+              <ul className="space-y-3">
+                {[
+                  "Buka Site Settings > Environment Variables",
+                  "Klik 'Add a Variable' > 'Add Single Variable'",
+                  "Key: API_KEY",
+                  "Value: (Masukkan API Key Gemini Anda)"
+                ].map((step, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="w-5 h-5 rounded-full bg-edu-yellow text-edu-dark text-[10px] font-black flex items-center justify-center shrink-0">{i+1}</span>
+                    <p className="text-xs font-bold text-slate-300">{step}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-edu-primary text-white text-[10px] font-black flex items-center justify-center shrink-0">2</div>
-              <p className="text-xs font-bold text-slate-600">Kirim file <span className="font-mono">.json</span> hasil backup kepada rekan guru.</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-edu-primary text-white text-[10px] font-black flex items-center justify-center shrink-0">3</div>
-              <p className="text-xs font-bold text-slate-600">Rekan guru cukup klik <span className="text-edu-secondary">Restore</span> dan pilih file tersebut.</p>
+            <div className="bg-black/30 p-6 rounded-3xl border border-white/5 space-y-4">
+              <div className="flex items-center gap-2 text-edu-yellow"><TerminalIcon size={14}/> <span className="text-[9px] font-black uppercase">Kenapa Harus Ini?</span></div>
+              <p className="text-[11px] text-slate-400 font-medium leading-relaxed italic">
+                "Dengan memasukkan API_KEY di Netlify, semua guru yang menggunakan link Anda bisa langsung generate modul tanpa harus memiliki kunci API sendiri. Portal Anda jadi siap pakai untuk satu sekolah!"
+              </p>
             </div>
           </div>
         </div>

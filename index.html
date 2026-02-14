@@ -4,7 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Guru Digital - Sistem Manajemen Sekolah</title>
+    <title>Portal Guru Digital - Manajemen Sekolah Cerdas</title>
+    
+    <!-- SEO & Social Sharing -->
+    <meta name="description" content="Sistem manajemen sekolah digital terpadu untuk guru Indonesia. Kelola murid, nilai, absensi, dan buat modul ajar otomatis dengan AI.">
+    <meta property="og:title" content="Portal Guru Digital">
+    <meta property="og:description" content="Manajemen Sekolah & Modul Ajar AI Terpadu">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#004F2D">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
@@ -12,12 +20,12 @@
             theme: {
                 extend: {
                     colors: {
-                        'edu-bg': '#FFFFFF',
-                        'edu-primary': '#004F2D', // Deep Green
-                        'edu-secondary': '#D87CAC', // Vibrant Pink
-                        'edu-dark': '#091E05', // Darkest Green
-                        'edu-pink-light': '#F9B9C3', // Soft Pink
-                        'edu-yellow': '#FFDA22', // Bright Yellow
+                        'edu-bg': '#F8FAFC',
+                        'edu-primary': '#004F2D',
+                        'edu-secondary': '#D87CAC',
+                        'edu-dark': '#091E05',
+                        'edu-pink-light': '#F9B9C3',
+                        'edu-yellow': '#FFDA22',
                     },
                     fontFamily: {
                         poppins: ['Poppins', 'sans-serif'],
@@ -33,7 +41,7 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #FFFFFF;
+            background-color: #F8FAFC;
             color: #1E293B;
             overflow-x: hidden;
         }
@@ -48,8 +56,8 @@
             background: #D87CAC;
             border-radius: 10px;
         }
-        .animate-fade-in { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
         .edu-table thead th {
             background-color: #091E05;
@@ -59,6 +67,13 @@
             font-weight: 800;
             letter-spacing: 0.1em;
             padding: 1.25rem 1.5rem;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
     </style>
 <script type="importmap">

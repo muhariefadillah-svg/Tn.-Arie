@@ -1,0 +1,5 @@
+{
+  "name": "Copy of Secure Portal Edu",
+  "description": "Sebuah sistem autentikasi modern dengan verifikasi email, dibangun menggunakan React, Tailwind CSS, dan Google Apps Script sebagai backend database Spreadsheet.",
+  "requestFramePermissions": []
+}
